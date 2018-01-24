@@ -14,35 +14,51 @@ include_once('./OtherObserver.php');
 /*
  * 主题初始化
  */
-$subject = new ConcreteSubject();
+$subjectPush = new ConcreteSubject(true);
 
 /*
- * 初始化观察者
+ * 初始化观察者并注册
  */
-$observerPeter = new ConcreteObserver('peter');
-$observerAlice = new ConcreteObserver('alice');
-$observerStarof = new ConcreteObserver('starof');
-$observerOther = new OtherObserver('other');
+$observerPeter = new ConcreteObserver('peter', $subjectPush);
+$observerAlice = new ConcreteObserver('alice', $subjectPush);
+$observerStarof = new ConcreteObserver('starof', $subjectPush);
+$observerOther = new OtherObserver('other', $subjectPush);
 
 /*
- * 注册观察者
+ * 观察者取消监听
  */
-$subject->attach($observerPeter);
-$subject->attach($observerAlice);
-$subject->attach($observerStarof);
-$subject->attach($observerOther);
-
-/*
- * 移除特定观察者
- */
-$subject->detach($observerStarof);
+$observerStarof->cancel();
+//or $subjectPush->detach($observerStarof);
 
 /*
  * 更改主题状态触发通知
  */
-$subject->setStatus('finish');
+$subjectPush->setStatus('finish');
+
+
+/***************************************************/
+echo "***************************************************\r\n";
 
 /*
- * 主题主动通知
+ * 主题初始化
  */
-$subject->notifyObservers();
+$subjectPull = new ConcreteSubject(false);
+
+/*
+ * 初始化观察者并注册
+ */
+$observerPeter = new ConcreteObserver('peter', $subjectPull);
+$observerAlice = new ConcreteObserver('alice', $subjectPull);
+$observerStarof = new ConcreteObserver('starof', $subjectPull);
+$observerOther = new OtherObserver('other', $subjectPull);
+
+/*
+ * 观察者取消监听
+ */
+$observerAlice->cancel();
+//or $subjectPull->detach($observerAlice);
+
+/*
+ * 更改主题状态触发通知
+ */
+$subjectPull->setStatus('finish');

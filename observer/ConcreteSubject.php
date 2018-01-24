@@ -7,15 +7,24 @@
  * Time: 15:58
  */
 class ConcreteSubject implements Subject{
+    private $isPush;
     private $observers;
     private $status;
-    public function __construct() {
+    private $notifyFlag;
+    private $name;
+
+    public function __construct($isPush = true) {
         $this->observers = array();
         $this->status = 'init';
+        $this->notifyFlag = false;
+        $this->name = "peter's subject";
+        $this->isPush = $isPush;
     }
 
     public function attach(Observer $observer) {
-        array_push($this->observers, $observer);
+        if (!empty($observer)) {
+            array_push($this->observers, $observer);
+        }
     }
 
     public function detach(Observer $observer) {
@@ -28,21 +37,45 @@ class ConcreteSubject implements Subject{
         }
     }
 
-    public function notifyObservers() {
+    public function pullNotifyObservers() {
         foreach ($this->observers as $observer) {
-            $observer->update($this->status);
+            $observer->pullUpdate();
+        }
+        return true;
+    }
+
+    public function pushNotifyObservers() {
+        foreach ($this->observers as $observer) {
+            $observer->pushUpdate($this->status);
         }
         return true;
     }
 
     public function setStatus($status) {
-        $notifyFlag = false;
         if ($status != $this->status) {
-            $notifyFlag = true;
+            $this->notifyFlag = true;
+        } else {
+            $this->notifyFlag = false;
         }
         $this->status = $status;
-        if ($notifyFlag === true) {
-            $this->notifyObservers();
+        if ($this->notifyFlag === true) {
+            if ($this->isPush === true) {
+                $this->pushNotifyObservers();
+            } else {
+                $this->pullNotifyObservers();
+            }
         }
+    }
+
+    public function setName($name) {
+        $this->name = $name;
+    }
+
+    public function getStatus() {
+        return $this->status;
+    }
+
+    public function getName() {
+        return $this->name;
     }
 }

@@ -24,9 +24,16 @@ interface Subject {
     public function detach(Observer $observer);
 
     /**
-     * 通知观察者
+     * 通知观察者,推送
      *
      * @return mixed
      */
-    public function notifyObservers();
+    public function pushNotifyObservers();
+
+    /**
+     * 通知观察者，拉取
+     *
+     * @return mixed
+     */
+    public function pullNotifyObservers();
 }
