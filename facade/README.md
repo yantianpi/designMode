@@ -6,7 +6,7 @@
 
 ## 结构图
 
-![image](https://github.com/yantianpi/designMode/raw/master/facede/structure.png)
+![image](https://github.com/yantianpi/designMode/raw/master/facade/structure.png)
 
 ## 外观中角色介绍
 
