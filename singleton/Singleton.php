@@ -24,6 +24,9 @@ class Singleton {
         die("singleton can't clone");
     }
 
+//    private function __clone() {
+//    }
+
     public function setStatus($status) {
         $this->status = $status;
     }
